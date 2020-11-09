@@ -1,0 +1,106 @@
+.custom-form-container {
+    width: 80vw;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.custom-form-container #details-form .date-gender-container {
+    display: flex;
+    flex-direction: row;
+    width: 45vw;
+    margin: 0 auto;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+.custom-form-container #details-form .date-gender-container .radio-button-container {
+    padding-top: 18px;
+}
+
+.custom-form-container #details-form #outlined-basic {
+    width: 45vw;
+}
+
+.custom-form-container #details-form .form-button-container {
+    display: flex;
+    width: 220px;
+    margin: 0 auto;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.custom-form-container #details-form .form-button-container button {
+    width: 100px;
+    height: 50px;
+    border: none;
+    outline: none;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    background-color: darkslateblue;
+    border-radius: 5px;
+}
+
+.custom-form-container #details-form .form-button-container button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.custom-form-container .language-container {
+    width: 45vw;
+    margin: 0 auto;
+    text-align: left;
+    margin-top: 30px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .custom-form-container #details-form #outlined-basic {
+        width: 60vw;
+    }
+
+    .custom-form-container #details-form .date-gender-container {
+        width: 60vw;
+    }
+
+    .custom-form-container .language-container {
+        width: 60vw;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .custom-form-container #details-form #outlined-basic {
+        width: 70vw;
+    }
+
+    .custom-form-container #details-form .date-gender-container {
+        width: 70vw;
+    }
+
+    .custom-form-container .language-container {
+        width: 70vw;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .custom-form-container #details-form #outlined-basic {
+        width: 75vw;
+    }
+
+    .custom-form-container #details-form .date-gender-container {
+        flex-direction: column;
+    }
+
+    .custom-form-container #details-form .date-gender-container .date-picker-wrap {
+        margin: 0 auto;
+    }
+
+    .custom-form-container #details-form .date-gender-container .radio-button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .custom-form-container .language-container {
+        width: 75vw;
+        text-align: center;
+    }
+}

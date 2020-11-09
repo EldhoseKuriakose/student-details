@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StudentData from './StudentData';
 import DetailsTable from '../../components/DetailsTable/DetailsTable.component';
+import CustomForm from '../../components/CustomForm/CustomForm.component';
 import './HomePage.styles.css';
 
-const HomePage = () => (
-    <div className="homepage-container">
-        <div className="button-container">
-            <button className="add-button">ADD</button>
-            <button className="viewall-button">VIEW ALL</button>
-        </div>
-        <div className="details-table-wrap">
+const HomePage = () => {
+    const [listView, setListView] = useState(true); 
+    return (
+        <div className="homepage-container">
+            <div className="button-container">
+                <button className="add-button" onClick={() => {setListView(false)}}>ADD</button>
+                <button className="viewall-button" onClick={() => setListView(true)}>VIEW ALL</button>
+            </div>
             {
-                StudentData.length > 0
-                ? <DetailsTable studentdatas={StudentData} />
-                : <h1 className="no-data-message">No Student Data Found</h1>
+                listView
+                ?   <div className="details-table-wrap">
+                        {
+                            StudentData.length > 0
+                            ? <DetailsTable studentdatas={StudentData} />
+                            : <h1 className="no-data-message">No Student Data Found</h1>
+                        }
+                    </div>
+                :   <CustomForm />
             }
         </div>
-    </div>
-);
+    );
+}
 
 export default HomePage;
