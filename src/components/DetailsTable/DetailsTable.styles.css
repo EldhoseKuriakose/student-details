@@ -1,0 +1,18 @@
+.table-buttons {
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.table-buttons:hover {
+    cursor: pointer;
+    opacity: 0.75;
+}
+
+.edit-button {
+    background-color: tomato;
+}
+
+.delete-button {
+    background-color: darkred;
+}

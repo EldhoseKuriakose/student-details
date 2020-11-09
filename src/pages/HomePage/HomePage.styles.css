@@ -1,0 +1,36 @@
+.homepage-container .button-container {
+    width: 200px;
+    height: 70px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.homepage-container .button-container button {
+    border: none;
+    outline: none;
+    width: 90px;
+    height: 50px;
+    font-family: sans-serif;
+    font-weight: bold;
+    background-color: #0580e6;
+    color: white;
+}
+
+.homepage-container .button-container button:hover {
+    border: 1px solid #0580e6;
+    background-color: white;
+    color: #0580e6;
+    cursor: pointer;
+}
+
+.homepage-container .details-table-wrap {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.homepage-container .details-table-wrap .no-data-message {
+    text-align: center;
+}
