@@ -1,0 +1,9 @@
+.navbar-container {
+    height: 60px;
+    width: 100vw;
+    background-color: rgb(3,90,161);
+}
+
+.navbar-container .user-button-container {
+    float: right;
+}

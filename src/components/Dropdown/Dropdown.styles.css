@@ -1,0 +1,19 @@
+#user-icon {
+    font-size: 35px;
+    padding-top: 9px;
+    margin-right: 40px;
+    color: white;
+    outline: none;
+}
+
+#user-icon:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.dropdown-link {
+    text-decoration: none;
+    color: black;
+    text-transform: lowercase;
+    text-transform: capitalize;
+}
