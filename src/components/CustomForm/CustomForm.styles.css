@@ -42,7 +42,20 @@
     border-radius: 5px;
 }
 
-.custom-form-container #details-form .form-button-container button:hover {
+.custom-form-container #details-form .form-button-container .submit-button {
+    opacity: 0.5;
+}
+
+.custom-form-container #details-form .form-button-container .submission-allowed {
+    opacity: 1;
+}
+
+.custom-form-container #details-form .form-button-container .reste-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.custom-form-container #details-form .form-button-container .submission-allowed:hover {
     cursor: pointer;
     opacity: 0.8;
 }
