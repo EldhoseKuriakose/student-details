@@ -64,14 +64,14 @@ export default function LoginPage() {
             password: password
         }
 
-        // axios.post(`http://localhost:3001/login`, { submission })
-        //     .then(res => {
-        //         if(res.data.status === 200) {
-        //             console.log('Login successful');
-        //         } else {
-        //             console.log('Login failed');
-        //         }
-        //     });
+        axios.post(`http://localhost:3001/login`, { submission })
+            .then(res => {
+                if(res.data.status === 200) {
+                    console.log('Login successful');
+                } else {
+                    console.log('Login failed');
+                }
+            });
     }
 
     return (

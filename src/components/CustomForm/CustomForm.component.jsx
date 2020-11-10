@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Loader from '../Loader/Loader.component';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from '../DatePicker/DatePicker.component';
@@ -26,6 +27,9 @@ export default function CustomForm({ studentDetails }) {
     const [language, setLanguage] = useState({english: false, hindi: false});
     const [emailValid, setEmailValid] = useState(true);
     const [mobileValid, setMobileValid] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [failed, setFailed] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -59,6 +63,7 @@ export default function CustomForm({ studentDetails }) {
         e.preventDefault();
 
         if(firstName.length > 0 && lastName.length > 0 && email.length > 0 && mobile.length > 0 && dob.length > 0 && emailValid && mobileValid) {
+            setLoading(true);
             if(studentDetails) {
                 let submission = {
                     id: studentDetails.student.id,
@@ -75,9 +80,11 @@ export default function CustomForm({ studentDetails }) {
                 axios.post(`http://localhost:3001/update`, { submission })
                 .then(res => {
                     if(res.data.status === 200) {
-                        console.log('submission successful');
+                        setLoading(false);
+                        setSubmitted(true);
                     } else {
-                        console.log('submission failed');
+                        setLoading(false);
+                        setFailed(true);
                     }
                 });
             } else {
@@ -95,13 +102,19 @@ export default function CustomForm({ studentDetails }) {
                 axios.post(`http://localhost:3001/submit`, { submission })
                     .then(res => {
                         if(res.data.status === 200) {
-                            console.log('submission successful');
+                            setLoading(false);
+                            setSubmitted(true);
                         } else {
-                            console.log('submission failed');
+                            setLoading(false);
+                            setFailed(true);
                         }
                     });
             }
             handleReset(e);
+            setTimeout(() => {  
+                setSubmitted(false);
+                setFailed(false);
+            }, 10000);
         }  
     }
 
@@ -174,17 +187,35 @@ export default function CustomForm({ studentDetails }) {
                         ))}
                     </TextField>
                 </div>
-                <div className="form-button-container">
-                    {
-                        studentDetails
-                        ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Update</button>
-                        :   firstName.length > 0 && lastName.length > 0 && email.length > 0 && mobile.length > 0 && dob.length > 0 && emailValid && mobileValid
-                            ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Save</button>
-                            :   <button className='submit-button' disabled={true} type="submit">Save</button>
-                    }
-                    
-                    <button className="reset-button" onClick={(e) => handleReset(e)}>Reset</button>
-                </div>
+                {
+                    loading
+                    ?   <Loader />
+                    :   submitted
+                        ?   <div className="success-outer" id="success">
+                                <span>
+                                    <i className="material-icons">check</i>
+                                    <p>Submitted</p>
+                                </span>
+                            </div>
+                        :   failed
+                                ?   <div className="failed-outer">
+                                        <span>
+                                            <i className="material-icons">error</i>
+                                            <p>Submission failed</p>
+                                        </span>
+                                    </div>
+                                :   <div className="form-button-container">
+                                        {
+                                            studentDetails
+                                            ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Update</button>
+                                            :   firstName.length > 0 && lastName.length > 0 && email.length > 0 && mobile.length > 0 && dob.length > 0 && emailValid && mobileValid
+                                                ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Save</button>
+                                                :   <button className='submit-button' disabled={true} type="submit">Save</button>
+                                        }
+                                        
+                                        <button className="reset-button" onClick={(e) => handleReset(e)}>Reset</button>
+                                    </div>
+                }
             </form>
         </div>
     );

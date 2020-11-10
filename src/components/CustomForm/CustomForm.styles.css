@@ -78,6 +78,22 @@
     margin-left: -15px;
 }
 
+.success-outer i {
+    color: green;
+}
+
+.success-outer p {
+    color: green;
+}
+
+.failed-outer i {
+    color: red;
+}
+
+.failed-outer p {
+    color: red;
+}
+
 @media only screen and (max-width: 1000px) {
     .custom-form-container #details-form #outlined-basic {
         width: 60vw;

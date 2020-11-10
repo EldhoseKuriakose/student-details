@@ -6,18 +6,17 @@ import SignUpPage from './pages/SignUpPage/SignUpPage.component';
 import './App.css';
 
 function App() {
-  const auth = false;
+  const auth = true;
   return (
     <div className="App">
       <Switch>
         <Route exact path="/" render={() => {
           if(auth) {
-            return  <Redirect to="/home" />
+            return  <HomePage />
           } else {
             return <Redirect to="/login" />
           }
         }} />
-        <Route path="/home" component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={SignUpPage} />
       </Switch>

@@ -18,7 +18,7 @@ export default function DatePicker({ value, handleDateChange }) {
   const classes = useStyles();
 
   return (
-    <form className={classes.container} noValidate>
+    <div className={classes.container} noValidate>
         <TextField
             id="date"
             label="Date of birth"
@@ -30,6 +30,6 @@ export default function DatePicker({ value, handleDateChange }) {
                 shrink: true,
             }}
         />
-    </form>
+    </div>
   );
 }
