@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -63,14 +64,14 @@ export default function LoginPage() {
             password: password
         }
 
-        axios.post(`http://localhost:3001/login`, { submission })
-            .then(res => {
-                if(res.data.status === 200) {
-                    console.log('Login successful');
-                } else {
-                    console.log('Login failed');
-                }
-            });
+        // axios.post(`http://localhost:3001/login`, { submission })
+        //     .then(res => {
+        //         if(res.data.status === 200) {
+        //             console.log('Login successful');
+        //         } else {
+        //             console.log('Login failed');
+        //         }
+        //     });
     }
 
     return (
