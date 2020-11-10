@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -55,6 +56,23 @@ export default function LoginPage() {
         }
     }
 
+    const handleLogin = (e) => {
+        e.preventDefault();
+        let submission = {
+            email: email,
+            password: password
+        }
+
+        axios.post(`http://localhost:3001/login`, { submission })
+            .then(res => {
+                if(res.data.status === 200) {
+                    console.log('Login successful');
+                } else {
+                    console.log('Login failed');
+                }
+            });
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -101,6 +119,7 @@ export default function LoginPage() {
                         color="primary"
                         className={classes.submit}
                         disabled={!(email.length > 0 && password.length > 0 && emailValid && passwordValid)}
+                        onClick={(e) => handleLogin(e)}
                     >
                         Sign In
                     </Button>
