@@ -2,6 +2,7 @@
     width: 80vw;
     margin: 0 auto;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .custom-form-container #details-form .date-gender-container {
@@ -46,11 +47,22 @@
     opacity: 0.8;
 }
 
-.custom-form-container .language-container {
+.custom-form-container .language-city-container {
     width: 45vw;
     margin: 0 auto;
-    text-align: left;
     margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.custom-form-container .language-city-container #outlined-select {
+    font-size: 14px !important;
+}
+
+.custom-form-container .language-city-container .language-container {
+    margin-top: 20px;
+    margin-left: -15px;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -64,6 +76,14 @@
 
     .custom-form-container .language-container {
         width: 60vw;
+    }
+
+    .custom-form-container .language-city-container {
+        width: 60vw;
+    }
+
+    .custom-form-container .language-city-container .language-container {
+        margin-left: -120px;
     }
 }
 
@@ -79,11 +99,15 @@
     .custom-form-container .language-container {
         width: 70vw;
     }
+
+    .custom-form-container .language-city-container {
+        width: 70vw;
+    }
 }
 
 @media only screen and (max-width: 630px) {
     .custom-form-container #details-form #outlined-basic {
-        width: 75vw;
+        margin: 0 auto;
     }
 
     .custom-form-container #details-form .date-gender-container {
@@ -95,12 +119,26 @@
     }
 
     .custom-form-container #details-form .date-gender-container .radio-button-container {
-        text-align: center;
+        margin: 0 auto;
         margin-top: 20px;
     }
 
     .custom-form-container .language-container {
         width: 75vw;
         text-align: center;
+    }
+
+    .custom-form-container .language-city-container {
+        flex-direction: column;
+    }
+
+    .custom-form-container .language-city-container .language-container {
+        margin: 0 auto;
+    }
+
+    .custom-form-container .language-city-container .MuiTextField-root {
+        width: 150px !important;
+        margin: 0 auto;
+        margin-top: 30px !important;
     }
 }

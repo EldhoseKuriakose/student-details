@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomForm() {
     const classes = useStyles();
+    const cities = ['Mumbai', 'Pune', 'Bengalore', 'Hyderabad', 'Chennai', 'Ernakulam', 'Delhi', 'Jaipur'];
 
     return (
         <div className="custom-form-container">
@@ -35,12 +36,31 @@ export default function CustomForm() {
                         <label for="other">Other</label>
                     </div>
                 </div>
-                <div className="language-container">
-                    <label>Languages :</label>&emsp;&emsp;
-                    <input type="checkbox" id="english" name="language" value="english" />
-                    <label for="english">English</label>&emsp;
-                    <input type="checkbox" id="hindi" name="language" value="hindi" />
-                    <label for="hindi">Hindi</label>
+                <div className="language-city-container">
+                    <div className="language-container">
+                        <label>Languages :</label>&emsp;&emsp;
+                        <input type="checkbox" id="english" name="language" value="english" />
+                        <label for="english">English</label>&emsp;
+                        <input type="checkbox" id="hindi" name="language" value="hindi" />
+                        <label for="hindi">Hindi</label>
+                    </div>
+                    <TextField
+                        id="outlined-select"
+                        select
+                        label="Select Location"
+                        // value={currency}
+                        // onChange={handleChange}
+                        SelectProps={{
+                            native: true,
+                        }}
+                        variant="outlined"
+                    >
+                        {cities.map((option) => (
+                            <option key={option} value={option.toLowerCase()}>
+                                {option}
+                            </option>
+                        ))}
+                    </TextField>
                 </div>
                 <div className="form-button-container">
                     <button className="submit-button" type="submit">Save</button>

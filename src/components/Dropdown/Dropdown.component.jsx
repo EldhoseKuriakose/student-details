@@ -64,9 +64,9 @@ export default function Dropdown() {
                         <Paper>
                         <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                            <Link className="dropdown-link" to='login'>
-                                            <MenuItem onClick={handleClose}>Logout</MenuItem>
-                                        </Link>
+                                <Link className="dropdown-link" to='login'>
+                                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                </Link>
                             </MenuList>
                         </ClickAwayListener>
                         </Paper>
