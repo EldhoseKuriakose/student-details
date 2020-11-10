@@ -22,8 +22,8 @@ export default function CustomForm({ studentDetails }) {
     const [email, setEmail] = useState(studentDetails ? studentDetails.student.email : '');
     const [mobile, setMobile] = useState(studentDetails ? studentDetails.student.mobile : '');
     const [dob, setDob] = useState(studentDetails ? studentDetails.student.dob : '');
-    const [gender, setGender] = useState('');
-    const [city, setCity] = useState('');
+    const [gender, setGender] = useState(studentDetails ? studentDetails.student.gender : '');
+    const [city, setCity] = useState(studentDetails ? studentDetails.student.city : '');
     const [language, setLanguage] = useState({english: false, hindi: false});
     const [emailValid, setEmailValid] = useState(true);
     const [mobileValid, setMobileValid] = useState(true);
@@ -61,23 +61,43 @@ export default function CustomForm({ studentDetails }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+        if(studentDetails) {
+            let submission = {
+                id: studentDetails.student.id,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                mobile: mobile,
+                dob: dob,
+                gender: gender,
+                city: city,
+                language: language
+            }
 
-        if(firstName.length > 0 && lastName.length > 0 && email.length > 0 && mobile.length > 0 && dob.length > 0 && emailValid && mobileValid) {
-            setLoading(true);
-            if(studentDetails) {
-                let submission = {
-                    id: studentDetails.student.id,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    mobile: mobile,
-                    dob: dob,
-                    gender: gender,
-                    city: city,
-                    language: language
+            axios.post(`http://localhost:3001/update`, { submission })
+            .then(res => {
+                if(res.data.status === 200) {
+                    setLoading(false);
+                    setSubmitted(true);
+                } else {
+                    setLoading(false);
+                    setFailed(true);
                 }
-
-                axios.post(`http://localhost:3001/update`, { submission })
+            });
+        } else {
+            let submission = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                mobile: mobile,
+                dob: dob,
+                gender: gender,
+                city: city,
+                language: language
+            }
+    
+            axios.post(`http://localhost:3001/submit`, { submission })
                 .then(res => {
                     if(res.data.status === 200) {
                         setLoading(false);
@@ -87,35 +107,12 @@ export default function CustomForm({ studentDetails }) {
                         setFailed(true);
                     }
                 });
-            } else {
-                let submission = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    mobile: mobile,
-                    dob: dob,
-                    gender: gender,
-                    city: city,
-                    language: language
-                }
-        
-                axios.post(`http://localhost:3001/submit`, { submission })
-                    .then(res => {
-                        if(res.data.status === 200) {
-                            setLoading(false);
-                            setSubmitted(true);
-                        } else {
-                            setLoading(false);
-                            setFailed(true);
-                        }
-                    });
-            }
-            handleReset(e);
-            setTimeout(() => {  
-                setSubmitted(false);
-                setFailed(false);
-            }, 10000);
-        }  
+        }
+        handleReset(e);
+        setTimeout(() => {  
+            setSubmitted(false);
+            setFailed(false);
+        }, 10000); 
     }
 
     const handleReset = (e) => {
