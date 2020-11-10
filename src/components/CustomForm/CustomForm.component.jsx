@@ -13,18 +13,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CustomForm() {
+export default function CustomForm({ studentDetails }) {
     const classes = useStyles();
     const cities = ['None', 'Mumbai', 'Pune', 'Bengalore', 'Hyderabad', 'Chennai', 'Ernakulam', 'Delhi', 'Jaipur'];
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [date, setDate] = useState('');
+    const [firstName, setFirstName] = useState(studentDetails ? studentDetails.student.firstName : '');
+    const [lastName, setLastName] = useState(studentDetails ? studentDetails.student.lastName : '');
+    const [email, setEmail] = useState(studentDetails ? studentDetails.student.email : '');
+    const [mobile, setMobile] = useState(studentDetails ? studentDetails.student.mobile : '');
+    const [dob, setDob] = useState(studentDetails ? studentDetails.student.dob : '');
     const [gender, setGender] = useState('');
     const [city, setCity] = useState('');
     const [language, setLanguage] = useState({english: false, hindi: false});
-
     const [emailValid, setEmailValid] = useState(true);
     const [mobileValid, setMobileValid] = useState(true);
 
@@ -40,14 +39,14 @@ export default function CustomForm() {
     const handleMobileChange = (e) => {
         setMobile(e.target.value);
         if(e.target.value.length === 10) {
-            setMobileValid(false);
-        } else {
             setMobileValid(true);
+        } else {
+            setMobileValid(false);
         }
     }
 
     const handleDateChange = (e) => {
-        setDate(e.target.value);
+        setDob(e.target.value);
     }
 
     const handleGenderChange = (e) => {
@@ -59,28 +58,51 @@ export default function CustomForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        let submission = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            mobile: mobile,
-            date: date,
-            gender: gender,
-            city: city,
-            language: language
-        }
-
-        console.log(submission);
-
-        axios.post(`http://localhost:3001/submit`, { submission })
-            .then(res => {
-                if(res.data.status === 200) {
-                    console.log('submission successful');
-                } else {
-                    console.log('submission failed');
+        if(firstName.length > 0 && lastName.length > 0 && email.length > 0 && mobile.length > 0 && dob.length > 0 && emailValid && mobileValid) {
+            if(studentDetails) {
+                let submission = {
+                    id: studentDetails.student.id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    mobile: mobile,
+                    dob: dob,
+                    gender: gender,
+                    city: city,
+                    language: language
                 }
-            });
-        handleReset(e);
+
+                axios.post(`http://localhost:3001/update`, { submission })
+                .then(res => {
+                    if(res.data.status === 200) {
+                        console.log('submission successful');
+                    } else {
+                        console.log('submission failed');
+                    }
+                });
+            } else {
+                let submission = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    mobile: mobile,
+                    dob: dob,
+                    gender: gender,
+                    city: city,
+                    language: language
+                }
+        
+                axios.post(`http://localhost:3001/submit`, { submission })
+                    .then(res => {
+                        if(res.data.status === 200) {
+                            console.log('submission successful');
+                        } else {
+                            console.log('submission failed');
+                        }
+                    });
+            }
+            handleReset(e);
+        }  
     }
 
     const handleReset = (e) => {
@@ -89,7 +111,7 @@ export default function CustomForm() {
         setLastName('');
         setEmail('');
         setMobile('');
-        setDate('');
+        setDob('');
     }
 
     return (
@@ -101,15 +123,15 @@ export default function CustomForm() {
                 <TextField id="outlined-basic" type="number" error={!mobileValid} label="Mobile" value={mobile} onChange={(e) => handleMobileChange(e)} variant="outlined" /><br />
                 <div className="date-gender-container">
                     <div className="date-picker-wrap">
-                        <DatePicker value={date} handleDateChange={handleDateChange} />
+                        <DatePicker value={dob} handleDateChange={handleDateChange} />
                     </div>
                     <div className="radio-button-container">
                         <input type="radio" id="male" name="gender" onChange={(e) => handleGenderChange(e)} value="male" />
-                        <label for="male">Male</label>&emsp;
+                        <label htmlFor="male">Male</label>&emsp;
                         <input type="radio" id="female" name="gender" onChange={(e) => handleGenderChange(e)} value="female" />
-                        <label for="female">Female</label>&emsp;
+                        <label htmlFor="female">Female</label>&emsp;
                         <input type="radio" id="other" name="gender" onChange={(e) => handleGenderChange(e)} value="other" />
-                        <label for="other">Other</label>
+                        <label htmlFor="other">Other</label>
                     </div>
                 </div>
                 <div className="language-city-container">
@@ -123,7 +145,7 @@ export default function CustomForm() {
                             onChange={(e) => setLanguage({[e.target.value]: e.target.checked})} 
                             value="english" 
                         />
-                        <label for="english">English</label>&emsp;
+                        <label htmlFor="english">English</label>&emsp;
                         <input
                             type="checkbox" 
                             id="hindi" 
@@ -132,7 +154,7 @@ export default function CustomForm() {
                             onChange={(e) => setLanguage({[e.target.value]: e.target.checked})}
                             value="hindi" 
                         />
-                        <label for="hindi">Hindi</label>
+                        <label htmlFor="hindi">Hindi</label>
                     </div>
                     <TextField
                         id="outlined-select"
@@ -154,9 +176,11 @@ export default function CustomForm() {
                 </div>
                 <div className="form-button-container">
                     {
-                        firstName.length > 0 && lastName.length > 0 && email.length > 0 && gender.length > 0 && date.length > 0 && emailValid && mobileValid
-                        ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Save</button>
-                        :   <button className='submit-button' disabled={true} type="submit">Save</button>
+                        studentDetails
+                        ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Update</button>
+                        :   firstName.length > 0 && lastName.length > 0 && email.length > 0 && mobile.length > 0 && dob.length > 0 && emailValid && mobileValid
+                            ?   <button className='submission-allowed' onClick={(e) => handleSubmit(e)} type="submit">Save</button>
+                            :   <button className='submit-button' disabled={true} type="submit">Save</button>
                     }
                     
                     <button className="reset-button" onClick={(e) => handleReset(e)}>Reset</button>

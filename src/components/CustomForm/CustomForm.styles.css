@@ -50,7 +50,7 @@
     opacity: 1;
 }
 
-.custom-form-container #details-form .form-button-container .reste-button:hover {
+.custom-form-container #details-form .form-button-container .reset-button:hover {
     cursor: pointer;
     opacity: 0.8;
 }

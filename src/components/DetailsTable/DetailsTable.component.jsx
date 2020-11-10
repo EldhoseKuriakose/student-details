@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DetailsTable({ studentdatas }) {
+export default function DetailsTable({ studentdatas, handleEdit, handleDelete }) {
   const classes = useStyles();
 
   return (
@@ -27,7 +27,7 @@ export default function DetailsTable({ studentdatas }) {
             <TableCell>LastName</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Mobile</TableCell>
-            <TableCell>DOB</TableCell>
+            <TableCell>DOB(yyyy-mm-dd)</TableCell>
             <TableCell>Gender</TableCell>
             <TableCell>City</TableCell>
             <TableCell>Language</TableCell>
@@ -38,16 +38,16 @@ export default function DetailsTable({ studentdatas }) {
         <TableBody>
           {studentdatas.map(studentdata => (
             <TableRow key={studentdata.id}>
-              <TableCell>{studentdata.firstname}</TableCell>
-              <TableCell>{studentdata.lastname}</TableCell>
+              <TableCell>{studentdata.firstName}</TableCell>
+              <TableCell>{studentdata.lastName}</TableCell>
               <TableCell>{studentdata.email}</TableCell>
               <TableCell>{studentdata.mobile}</TableCell>
               <TableCell>{studentdata.dob}</TableCell>
               <TableCell>{studentdata.gender}</TableCell>
               <TableCell>{studentdata.city}</TableCell>
               <TableCell>{studentdata.language}</TableCell>
-              <TableCell><button className="edit-button table-buttons">Edit</button></TableCell>
-              <TableCell><button className="delete-button table-buttons">Delete</button></TableCell>
+              <TableCell><button id={studentdata.id} className="edit-button table-buttons" onClick={(e) => handleEdit(e)}>Edit</button></TableCell>
+              <TableCell><button className="delete-button table-buttons" onClick={(e) => handleDelete(e)}>Delete</button></TableCell>
             </TableRow>
           ))}
         </TableBody>

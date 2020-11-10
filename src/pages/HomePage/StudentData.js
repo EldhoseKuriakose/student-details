@@ -1,22 +1,22 @@
 const StudentData = [
     {   
         id: 1,
-        firstname: "John",
-        lastname: "Joseph",
+        firstName: "John",
+        lastName: "Joseph",
         email: "joseph@gmail.com",
-        mobile: "1111111111",
-        dob: "21-05-1988",
+        mobile: 1111111111,
+        dob: "1988-05-21",
         gender: "Male",
         city: "Hyderabad",
-        language: "Telugu"
+        language: "English"
     },
     {
         id: 2,
-        firstname: "AB",
-        lastname: "CD",
+        firstName: "AB",
+        lastName: "CD",
         email: "abcd@gmail.com",
-        mobile: "9999999999",
-        dob: "01-09-1999",
+        mobile: 9999999999,
+        dob: "1999-01-09",
         gender: "Female",
         city: "Mumbai",
         language: "Hindi"
