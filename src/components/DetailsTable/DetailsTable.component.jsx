@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,6 +8,24 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import './DetailsTable.styles.css';
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 const useStyles = makeStyles({
   table: {
@@ -20,35 +38,35 @@ export default function DetailsTable({ studentdatas, handleEdit, handleDelete })
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
+      <Table className={classes.table} size="small" stickyHeader={true} aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>First Name</TableCell>
-            <TableCell>LastName</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Mobile</TableCell>
-            <TableCell>DOB(yyyy-mm-dd)</TableCell>
-            <TableCell>Gender</TableCell>
-            <TableCell>City</TableCell>
-            <TableCell>Language</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
+            <StyledTableCell>First Name</StyledTableCell>
+            <StyledTableCell>LastName</StyledTableCell>
+            <StyledTableCell>Email</StyledTableCell>
+            <StyledTableCell>Mobile</StyledTableCell>
+            <StyledTableCell>DOB(yyyy-mm-dd)</StyledTableCell>
+            <StyledTableCell>Gender</StyledTableCell>
+            <StyledTableCell>City</StyledTableCell>
+            <StyledTableCell>Language</StyledTableCell>
+            <StyledTableCell>Edit</StyledTableCell>
+            <StyledTableCell>Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {studentdatas.map(studentdata => (
-            <TableRow key={studentdata.id}>
-              <TableCell>{studentdata.firstName}</TableCell>
-              <TableCell>{studentdata.lastName}</TableCell>
-              <TableCell>{studentdata.email}</TableCell>
-              <TableCell>{studentdata.mobile}</TableCell>
-              <TableCell>{studentdata.dob}</TableCell>
-              <TableCell>{studentdata.gender}</TableCell>
-              <TableCell>{studentdata.city}</TableCell>
-              <TableCell>{studentdata.language}</TableCell>
-              <TableCell><button id={studentdata.id} className="edit-button table-buttons" onClick={(e) => handleEdit(e)}>Edit</button></TableCell>
-              <TableCell><button className="delete-button table-buttons" onClick={(e) => handleDelete(e)}>Delete</button></TableCell>
-            </TableRow>
+            <StyledTableRow key={studentdata.id}>
+              <StyledTableCell>{studentdata.firstName}</StyledTableCell>
+              <StyledTableCell>{studentdata.lastName}</StyledTableCell>
+              <StyledTableCell>{studentdata.email}</StyledTableCell>
+              <StyledTableCell>{studentdata.mobile}</StyledTableCell>
+              <StyledTableCell>{studentdata.dob}</StyledTableCell>
+              <StyledTableCell>{studentdata.gender}</StyledTableCell>
+              <StyledTableCell>{studentdata.city}</StyledTableCell>
+              <StyledTableCell>{studentdata.language}</StyledTableCell>
+              <StyledTableCell><button id={studentdata.id} className="edit-button table-buttons" onClick={(e) => handleEdit(e)}>Edit</button></StyledTableCell>
+              <StyledTableCell><button className="delete-button table-buttons" onClick={(e) => handleDelete(e)}>Delete</button></StyledTableCell>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>
