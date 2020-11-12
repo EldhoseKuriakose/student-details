@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../redux/user/user.actions';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpPage() {
     const classes = useStyles();
+    const regUser = useDispatch();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -79,14 +81,16 @@ export default function SignUpPage() {
             password: password
         }
 
-        axios.post(`http://localhost:3001/register`, { submission })
-            .then(res => {
-                if(res.data.status === 200) {
-                    console.log('registration successful');
-                } else {
-                    console.log('registration failed');
-                }
-            });
+        regUser(registerUser(submission));
+
+        // axios.post(`http://localhost:3001/register`, { submission })
+        //     .then(res => {
+        //         if(res.data.status === 200) {
+        //             console.log('registration successful');
+        //         } else {
+        //             console.log('registration failed');
+        //         }
+        //     });
     }
 
     return (

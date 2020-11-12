@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../redux/user/user.actions';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
     const classes = useStyles();
+    const setUser = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailValid, setEmailValid] = useState(true);
@@ -59,19 +60,22 @@ export default function LoginPage() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        let submission = {
+        let user = {
             email: email,
             password: password
         }
 
-        axios.post(`http://localhost:3001/login`, { submission })
-            .then(res => {
-                if(res.data.status === 200) {
-                    console.log('Login successful');
-                } else {
-                    console.log('Login failed');
-                }
-            });
+        setUser(setCurrentUser(user));
+
+
+        // axios.post(`http://localhost:3001/login`, { submission })
+        //     .then(res => {
+        //         if(res.data.status === 200) {
+        //             console.log('Login successful');
+        //         } else {
+        //             console.log('Login failed');
+        //         }
+        //     });
     }
 
     return (

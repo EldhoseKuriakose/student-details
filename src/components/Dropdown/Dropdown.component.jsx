@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../redux/user/user.actions';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +13,7 @@ import './Dropdown.styles.css';
 export default function Dropdown() {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+    const logout = useDispatch();
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -65,7 +68,7 @@ export default function Dropdown() {
                         <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                 <Link className="dropdown-link" to='login'>
-                                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                    <MenuItem onClick={() => logout(logoutUser())}>Logout</MenuItem>
                                 </Link>
                             </MenuList>
                         </ClickAwayListener>
