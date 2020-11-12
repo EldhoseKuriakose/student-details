@@ -63,9 +63,9 @@ export default function DetailsTable({ studentdatas, handleEdit, handleDelete })
               <StyledTableCell>{studentdata.dob}</StyledTableCell>
               <StyledTableCell>{studentdata.gender}</StyledTableCell>
               <StyledTableCell>{studentdata.city}</StyledTableCell>
-              <StyledTableCell>{studentdata.language}</StyledTableCell>
+              <StyledTableCell>{studentdata.language.map(lang => <p key={lang}>{lang}</p>)}</StyledTableCell>
               <StyledTableCell><button id={studentdata.id} className="edit-button table-buttons" onClick={(e) => handleEdit(e)}>Edit</button></StyledTableCell>
-              <StyledTableCell><button className="delete-button table-buttons" onClick={(e) => handleDelete(e)}>Delete</button></StyledTableCell>
+              <StyledTableCell><button id={studentdata.id} className="delete-button table-buttons" onClick={(e) => handleDelete(e)}>Delete</button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

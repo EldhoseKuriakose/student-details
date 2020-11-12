@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeStudent } from '../../redux/student/student.actions';
 import Navbar from '../../components/Navbar/Navbar.component';
-import StudentData from './StudentData';
 import DetailsTable from '../../components/DetailsTable/DetailsTable.component';
 import CustomForm from '../../components/CustomForm/CustomForm.component';
 import './HomePage.styles.css';
 
 const HomePage = () => {
+    const studentData = useSelector((state) => state.student.studentData);
+    const removeStud = useDispatch();
     const [listView, setListView] = useState(true);
     const [studentDetails, setStudentDetails] = useState();
 
     const handleEdit = (e) => {
-        StudentData.forEach(student => {
-            if(student.id == e.target.id) {
+        studentData.forEach(student => {
+            if(student.id === e.target.id) {
                 setStudentDetails({student});
             }
         });
@@ -20,17 +22,19 @@ const HomePage = () => {
     }
 
     const handleDelete = (e) => {
-        let submission = {
-            id: e.target.id
-        };
-        axios.post(`http://localhost:3001/delete`, { submission })
-                .then(res => {
-                    if(res.data.status === 200) {
-                        console.log('deletion successful');
-                    } else {
-                        console.log('deletion failed');
-                    }
-                });
+        // let submission = {
+        //     id: e.target.id
+        // };
+
+        removeStud(removeStudent(e.target.id));
+        // axios.post(`http://localhost:3001/delete`, { submission })
+        //         .then(res => {
+        //             if(res.data.status === 200) {
+        //                 console.log('deletion successful');
+        //             } else {
+        //                 console.log('deletion failed');
+        //             }
+        //         });
     }
 
     const handleAdd = () => {
@@ -49,8 +53,8 @@ const HomePage = () => {
                 listView
                 ?   <div className="details-table-wrap">
                         {
-                            StudentData.length > 0
-                            ? <DetailsTable studentdatas={StudentData} handleEdit={handleEdit} handleDelete={handleDelete} />
+                            studentData.length > 0
+                            ? <DetailsTable studentdatas={studentData} handleEdit={handleEdit} handleDelete={handleDelete} />
                             : <h1 className="no-data-message">No Student Data Found</h1>
                         }
                     </div>

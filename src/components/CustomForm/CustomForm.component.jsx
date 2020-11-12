@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { v4 as uuid } from 'uuid';
+import { addStudent, updateStudent } from '../../redux/student/student.actions';
 import Loader from '../Loader/Loader.component';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -24,12 +26,14 @@ export default function CustomForm({ studentDetails }) {
     const [dob, setDob] = useState(studentDetails ? studentDetails.student.dob : '');
     const [gender, setGender] = useState(studentDetails ? studentDetails.student.gender : '');
     const [city, setCity] = useState(studentDetails ? studentDetails.student.city : '');
-    const [language, setLanguage] = useState({english: false, hindi: false});
+    const [language, setLanguage] = useState([]);
     const [emailValid, setEmailValid] = useState(true);
     const [mobileValid, setMobileValid] = useState(true);
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [failed, setFailed] = useState(false);
+    const addStud = useDispatch();
+    const updateStud = useDispatch();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -59,6 +63,17 @@ export default function CustomForm({ studentDetails }) {
         }
     }
 
+    const handleLanguageChange = (e) => {
+        if(e.target.checked) {
+            let newLang = language;
+            newLang.push(e.target.value);
+            setLanguage(newLang);
+        } else {
+            let temp = language.filter(lang => lang != e.target.value);
+            setLanguage(temp);
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -75,18 +90,23 @@ export default function CustomForm({ studentDetails }) {
                 language: language
             }
 
-            axios.post(`http://localhost:3001/update`, { submission })
-            .then(res => {
-                if(res.data.status === 200) {
-                    setLoading(false);
-                    setSubmitted(true);
-                } else {
-                    setLoading(false);
-                    setFailed(true);
-                }
-            });
+            updateStud(updateStudent(submission));
+            setLoading(false);
+            setSubmitted(true);
+
+            // axios.post(`http://localhost:3001/update`, { submission })
+            // .then(res => {
+            //     if(res.data.status === 200) {
+            //         setLoading(false);
+            //         setSubmitted(true);
+            //     } else {
+            //         setLoading(false);
+            //         setFailed(true);
+            //     }
+            // });
         } else {
             let submission = {
+                id: uuid(),
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -96,23 +116,27 @@ export default function CustomForm({ studentDetails }) {
                 city: city,
                 language: language
             }
+
+            addStud(addStudent(submission));
+            setLoading(false);
+            setSubmitted(true);
     
-            axios.post(`http://localhost:3001/submit`, { submission })
-                .then(res => {
-                    if(res.data.status === 200) {
-                        setLoading(false);
-                        setSubmitted(true);
-                    } else {
-                        setLoading(false);
-                        setFailed(true);
-                    }
-                });
+            // axios.post(`http://localhost:3001/submit`, { submission })
+            //     .then(res => {
+            //         if(res.data.status === 200) {
+            //             setLoading(false);
+            //             setSubmitted(true);
+            //         } else {
+            //             setLoading(false);
+            //             setFailed(true);
+            //         }
+            //     });
         }
         handleReset(e);
         setTimeout(() => {  
             setSubmitted(false);
             setFailed(false);
-        }, 10000); 
+        }, 5000); 
     }
 
     const handleReset = (e) => {
@@ -150,9 +174,8 @@ export default function CustomForm({ studentDetails }) {
                         <input
                             type="checkbox" 
                             id="english" 
-                            name="language" 
-                            checked={language.english} 
-                            onChange={(e) => setLanguage({[e.target.value]: e.target.checked})} 
+                            name="language"  
+                            onChange={(e) => handleLanguageChange(e)} 
                             value="english" 
                         />
                         <label htmlFor="english">English</label>&emsp;
@@ -160,8 +183,7 @@ export default function CustomForm({ studentDetails }) {
                             type="checkbox" 
                             id="hindi" 
                             name="language"
-                            checked={language.hindi} 
-                            onChange={(e) => setLanguage({[e.target.value]: e.target.checked})}
+                            onChange={(e) => handleLanguageChange(e)}
                             value="hindi" 
                         />
                         <label htmlFor="hindi">Hindi</label>
